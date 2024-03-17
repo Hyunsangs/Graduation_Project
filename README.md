@@ -1,8 +1,25 @@
-# React + Vite
+# 2024년 중부대학교 졸업프로젝트 - RelPho
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### 팀원 및 역할
 
-Currently, two official plugins are available:
+- 91913878 유현상 : 프론트엔드, 디자인, 기획
+- 91913505 백승일 : 백엔드, 기획
+- 91716397 성연준 : 백엔드, 기획
+- 91913476 박준영 : 기획 및 디자인
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 소개
+
+### **개요**
+
+"나와 취미가 비슷한 사람들이 없을까?" 라는 질문에서 출발한 본 프로젝트는 사용자의 취향이 담긴 사진을 직접 선택하고 검색하여 비슷한 친구를 추천하는 웹사이트를 제안합니다.
+
+### **기술 스택**
+
+| 언어       | Javascript              |
+| ---------- | ----------------------- |
+| 라이브러리 | React                   |
+| 전역 상태  | Redux                   |
+| 번들러     | Vite                    |
+| 스타일링   | @emotion/styled         |
+| 협업 툴    | Notion, Discord, Github |
+| API        | axios                   |
