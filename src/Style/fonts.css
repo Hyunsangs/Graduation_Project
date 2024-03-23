@@ -1,0 +1,6 @@
+@font-face {
+    font-family: 'MyCustomFont';
+    src: url('../../public/font/Jalnan2.otf') format('opentype'); /* OpenType as an alternative */
+    font-weight: normal;
+    font-style: normal;
+}

@@ -1,0 +1,83 @@
+/* CSS Reset */
+@font-face {
+    font-family: 'Jalnan';
+    src: url('/font/Jalnan2.otf') format('opentype'); /* OpenType as an alternative */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'JalnanGothic';
+    src: url('/font/JalnanGothic.otf') format('opentype'); /* OpenType as an alternative */
+    font-weight: normal;
+    font-style: normal;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
+    margin: 0;
+    padding: 0;
+    
+    font-family: 'Jalnan', sans-serif;
+ 
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+a {
+    color: inherit; /* a 태그의 색상을 상속받도록 설정 */
+    text-decoration: none; /* 밑줄 제거 */
+    font-family: 'JalnanGothic', sans-serif;
+}
+
+button {
+    background: none;
+    color: inherit;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font-family: 'JalnanGothic', sans-serif;
+}
+
+/* 기타 필요한 전역 스타일링 */
+html {
+    font-family: sans-serif; /* 기본 폰트 설정 */
+    line-height: 1.15; /* 기본 줄간격 설정 */
+}
+
+/* 화면 크기에 따른 반응형 디자인을 위한 뷰포트 설정 */
+viewport {
+    width: device-width, initial-scale=1;
+}
+
+/* 이미지와 동영상이 요소 크기를 넘어서지 않도록 설정 */
+img,
+video {
+    max-width: 100%;
+    height: auto;
+}
