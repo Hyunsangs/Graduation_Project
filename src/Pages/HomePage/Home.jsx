@@ -1,12 +1,28 @@
 import styled from '@emotion/styled';
 import Footer from '../../Components/Footer';
-import { IoIosArrowRoundForward } from "react-icons/io";
 import { Link } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
 
 const MainHomeContainer = styled.div`
     
 `
-/* 메인 section1 css */
+/* --------------- 메인 section1 css --------------- */
+
+const fadeIn = `
+  @keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-100%);
+      }
+    
+    100%{
+        opacity: 1;
+        transform: translateY(0%);
+    }
+    
+  }
+`;
+
 const Section1 = styled.div`
     display: flex;
     flex-direction: column;
@@ -18,6 +34,10 @@ const Section1 = styled.div`
     padding-top: 100px; /* Navbar 높이만큼 상단에 공간 추가 */
     
     
+    .webTitle {
+        color: #8181f8;
+    }
+
     &::before {
         content: '';
         position: absolute;
@@ -35,146 +55,128 @@ const Section1 = styled.div`
 `
 
 const HomeTitle = styled.div`
+    ${fadeIn}
+    animation: fadeIn 2s ease-out forwards; // Reuse the animation with ease-in-out
+    font-size: 20px;
+    position: relative;// Use the animation
     font-size: 40px;
     position: relative;
-    
     margin-bottom: 20px;
-`
+`;
 
 const SubTitle = styled.div`
+    ${fadeIn}
+    animation: fadeIn 2s ease-out forwards; // Reuse the animation
     font-size: 20px;
     position: relative;
     margin-bottom: 120px;
-`
+`;
 
 const StartButton = styled.button`
+    ${fadeIn}
+    animation: fadeIn 2.5s ease-out forwards; 
     height: 50px;
     width: 200px;
-        
     font-weight: 700;
     font-size: 1.5em;
     line-height: 1;
     letter-spacing: 0em;
     color: rgb(255, 255, 255);
     display: flex;
-    -webkit-box-pack: center;
     justify-content: center;
-    text-align: center;
-    -webkit-box-align: center;
     align-items: center;
-    visibility: visible;
     border-style: none;
-    border-width: 1px;
-    border-color: rgba(222, 255, 255, 0.25);
     border-radius: 57px;
-    opacity: 1;
-    animation: 0.9s ease-in-out 0s 1 normal none running fade-in-bottom;
     background: linear-gradient(144deg, rgb(60, 89, 255) 38%, rgb(110, 255, 216) 100%);
-    white-space: pre-wrap;
-    word-break: break-word;
     cursor: pointer;
 
     &:hover {
-    opacity: 0.95;
-    white-space: pre-wrap;
-    word-break: break-word;
-}
-`
+        opacity: 0.95;
+        
+    }
 
-  /*  section2 css */
+    
+`;
+
+  /*---------------   section2 css  ------------------ */
+const fadeInUp = `
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+`;
+
+
 const Section2 = styled.div`
-    justify-content: center;
-    align-items: center;
-    display: flex;
+    padding: 20px;
+    font-size: 40px;
     flex-direction: column;
-    height: 100vh;
-    width: 100%;
-    background-color: white;
-
-    .section2_title {
-        font-size: 60px;
-    }
-`
-
-const Section2Container = styled.div`
-    width: 100%;
-    padding: 100px 50px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-template-rows: 50px 450px;
-    min-width: 1200px; /* or the minimum width you want */
-  
-    column-gap: 20px;
-    row-gap: 20px;
-    
-    .section2_userCard {
-        display: flex;
-        flex-direction: column;
-        min-width: 280px;
-        padding: 20px;
-        background-color: #F3F3F3;
-        
-        img {
-                width: 100%;
-                height: 70%;
-                object-fit: cover;
-            }
-        .section2_user_information {
-            
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            height: 30%;
-            
-
-            .section2_user_tag {
-                font-size: 30px;
-                color: #6a80f7;
-            }
-
-            .section2_user_nickname_sharer {
-                font-size: 10px;
-                text-align: center;
-                opacity: 0.5;
-            }
-
-            .section2_user_nickname {
-                font-size: 20px;
-                margin-top: 10px;
-            }
-        }
-        
-    }
-
-    
-`
-
-const Section2Header = styled.div`
-    justify-content: space-between;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    height: 50px;
-    grid-column: 1 / 5;
+    width: 100%;
     
-
-    .section2Header_title  {
-        font-size: 25px;
-    }
-
-    .section2Header_showFriend {
-        opacity: 0.5;
-        
+    .section2Title {
+        padding: 10px;
+        color: #8181f8;;
     }
 `
 
-/*  section3 css */
+const GridContainer = styled.div`
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjust '250px' to the minimum width you want for your images */
+    grid-auto-rows: 200px; /* This sets a minimum row height */
+    grid-auto-flow: dense; /* This tells the grid to fill in any holes in the grid */
+    grid-gap: 20px;
+    padding: 20px;
+    background: #f5f5f5;
+`;
+
+const GridItem = styled.div`
+    opacity: 0; // 초기 상태
+    grid-row-end: span 1;
+
+    &.wide {  
+        grid-column-end: span 2 ; 
+        grid-row-end: span 2; 
+    }
+
+    &.tall {
+        grid-column-end: span 1;
+        grid-row-end: span 2; 
+    }
+
+    &.side {
+        grid-column-end: span 2;
+        grid-row-end: span 1;
+    }
+
+    &.animate {
+        ${fadeInUp}
+        animation: fadeInUp 1s ease-out forwards;
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10%;
+    }
+`;
+
+
+/* ---------------  section3 css ---------------  */
 const Section3 = styled.div`
     display: flex;
     height: 100vh;
     width: 100%;
     background-color: #aef19d;
+
+    
 
 `
 
@@ -246,169 +248,353 @@ const Section3Container = styled.div`
     }
 
 `
+const CategoryRow = styled.div`
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    ${fadeInUp}
+    opacity: 0; // 초기 상태, 애니메이션 시작 전
 
-/*  section4 css */
+    &.animate {
+        animation: fadeInUp 1s ease-out forwards;
+    }
+`;
+
+const Category = styled.div`
+    
+    padding: 10px;
+    font-size: 30px;
+    background-color: white;
+    border: 2px solid #8181f8;
+    border-radius: 10px;
+    color: #8181f8;
+    margin-left: 10px;
+    
+`;
+
+
+/* ---------------  section4 css---------------  */
+
+const slideInLeft = `
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+`;
+
+const slideInRight = `
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+`;
+
+
+
 const Section4 = styled.div`
     display: flex;
-    height: 100vh;
+    
+    position: relative; /* 이 줄을 추가하세요 */
     width: 100%;
-    background-color: #9be5d4;
-
+    height: 100%;
+   
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: url('/section4Bg.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.5; /* 배경 이미지에만 투명도 적용 */
+        z-index: -1;
+    }
 `
 
 const Section4Container = styled.div`
-    display: grid;
-    padding: 100px 50px;
-    width: 100%;
-    height: 100%;
-    grid-template-columns: 1fr 1fr 1fr ;
-    grid-template-rows: 50px 500px;
-    grid-gap: 10px 10px;
-
-    .section4_header {
-        grid-column: 1 / 4;
-
-        .section4_header_title{
-            
-            font-size: 40px;
-        }
     
-   
-    }
-    .section4_content_container{
-            
-            background-color: #2a2a2b;
-            color: white;
+    padding: 50px 250px;
+    width: 100%;
+    
+    
+
+    .explainContainer {
+    
+       display: flex;
+       justify-content: space-around;
+        width: 100%;
+        margin-top: 100px;
+        
+        ${slideInLeft}
+        ${slideInRight}
+        .left-animate {
+            animation: slideInLeft 1s ease-out forwards;
+            opacity: 1;
         }
-        .section4_content_icon {
+        .right-animate {
+            animation: slideInRight 1s ease-out forwards;
+            opacity: 1;
+        }
+  
+        .explainContainer_img1 {
+            border-radius: 10%;
+            background-image: url('/explainImg.webp');
+            justify-self: center;
+            width: 450px;
+            height: 350px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            opacity: 0;
+        }
+        .explainContainer_img2 {
+            border-radius: 10%;
+            background-image: url('/explainImg2.webp');
+            width: 450px;
+            height: 350px;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 40%;
+            justify-self: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            opacity: 0;
         }
 
-        hr {
-            margin-bottom: 20px;
+        .explainContainer_img3 {
+            border-radius: 10%;
+            background-image: url('/explainImg3.webp');
+            width: 450px;
+            height: 350px;
+            justify-self: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            opacity: 0;
         }
-        .section4_content_explain {
+
+        .explainContanier_explain {
+            border-radius: 10%;
+            font-size: 20px;
+            padding: 20px;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
+            width: 350px;
+            height: 350px;
+            color: #41433d;
+            display: flex;
+            justify-self: center;
+            align-self: center;
+            background-color: white;
+            opacity: 0;
+
+            .explain_title {
+                color: #85b8e5;
+                font-size: 40px;
+                margin-bottom: 30px;
+
+                .emoji {
+                    width: 40px;
+                }
+            }
         }
+    } 
+       
 `
 
 
 
 
 const Home = () => {
+    const section2Ref = useRef(null); // Section2를 위한 ref 생성
+    const section3Ref = useRef(null); // Section3를 위한 ref 생성
+    
+     /* section3 애니메이션 */
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            },
+            { threshold: 1 }
+        );
+    
+        document.querySelectorAll('.categoryRow').forEach(row => {
+            observer.observe(row);
+        });
+    
+        // Cleanup
+        return () => {
+            document.querySelectorAll('.categoryRow').forEach(row => {
+                observer.unobserve(row);
+            });
+        };
+    }, []);
+
+
+    
+     /* section2 애니메이션 */
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate'); // 애니메이션 적용을 위한 클래스 추가
+                        observer.unobserve(entry.target); // 관찰 중단
+                    }
+                });
+            },
+            {
+                threshold: 0.5,
+            }
+        );
+    
+        const items = section2Ref.current.querySelectorAll('.gridItem');
+    
+        items.forEach(item => {
+            observer.observe(item);
+        });
+    
+        return () => {
+            items.forEach(item => {
+                observer.unobserve(item);
+            });
+        };
+    }, []);
+    
+    /* section4 애니메이션 */
+    useEffect(() => {
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add(entry.target.dataset.animate);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.5 });
+    
+        document.querySelectorAll('[data-animate]').forEach(el => observer.observe(el));
+      }, []);
+    
 
     return (
         <MainHomeContainer>
             <Section1>
-                <HomeTitle>사진 취향 분석을 통해 나만의 친구를 만나보세요!</HomeTitle>
-                <SubTitle>사진 기반으로 나와 취향이 같은 친구를 찾아줍니다.</SubTitle>
+                <HomeTitle><span className='webTitle'>RelPho</span>가 취향을 분석해서 친구를 소개해드립니다!</HomeTitle>
+                <SubTitle>사진을 바탕으로 취향이 맞는 친구를 찾아줍니다.</SubTitle>
                 <Link to="/login"><StartButton>시작하기</StartButton></Link>
             </Section1>
-            <Section2>
-                <Section2Container>
-                    <Section2Header>
-                        <div className='section2Header_title'># 공유사진</div>
-                        <div className='section2Header_showFriend'>자세히 보기<IoIosArrowRoundForward /></div>
-                    </Section2Header>
-                    { /* 이 부분은 사용자들 정보 불러서 보여주는 곳  */ }
-                    <div className='section2_userCard'>
-                        <img src='/ride.jpg'>{/*사진 소스 불러오기*/}</img>
-                        <div className='section2_user_information'>
-                            <div className='section2_user_tag'>#자전거타기</div>
-                            <div className='section2_user_nicknameContainer'>
-                                <div className='section2_user_nickname_sharer'>공유자</div>
-                                <div className='section2_user_nickname'>유현상</div>
-                            </div>
-                        </div>
-                        
-                    </div>
+            
+            <Section2 ref={section2Ref}>
+                <div className='section2Title'>#  인기 사진</div>
+                <GridContainer>
+                    <GridItem className='gridItem wide'>
+                        <img src='/cat.jpg' alt="Cat" />
+                    </GridItem>
+                    <GridItem className='gridItem'>
+                        <img src='/drive.jpg' />
+                    </GridItem>
+                    <GridItem  className='gridItem'>
+                        <img src='/soccer.jpg' />
+                    </GridItem>
+                    <GridItem className='gridItem wide'>
+                        <img src='/explainImg3.webp'/>
+                    </GridItem>
+                    <GridItem className='gridItem'>
+                        <img src='/tagbackground.png' />
+                    </GridItem>
+                    <GridItem className='gridItem tall'>
+                        <img src='/drive.jpg' />
+                    </GridItem>
+                    <GridItem className='gridItem tall'>
+                        <img src='/explainImg.webp' />
+                    </GridItem>
+                    <GridItem className='gridItem'>
+                        <img src='/explainImg2.webp' />
+                    </GridItem>
+                    <GridItem className='gridItem '>
+                        <img src='/cat.jpg' />
+                    </GridItem>
+                    <GridItem className='gridItem side'>
+                        <img src='/drive.jpg' />
+                    </GridItem>
+                    <GridItem className='gridItem '>
+                        <img src='/soccer.jpg' />
+                    </GridItem>
 
-                    <div className='section2_userCard'>
-                        <img src='/drive.jpg'>{/*사진 소스 불러오기*/}</img>
-                        <div className='section2_user_information'>
-                            <div className='section2_user_tag'>#드라이브</div>
-                            <div className='section2_user_nicknameContainer'>
-                                <div className='section2_user_nickname_sharer'>공유자</div>
-                                <div className='section2_user_nickname'>성연준</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className='section2_userCard'>
-                        <img src='/soccer.jpg'>{/*사진 소스 불러오기*/}</img>
-                        <div className='section2_user_information'>
-                            <div className='section2_user_tag'>#축구</div>
-                            <div className='section2_user_nicknameContainer'>
-                                <div className='section2_user_nickname_sharer'>공유자</div>
-                                <div className='section2_user_nickname'>백승일</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className='section2_userCard'>
-                        <img src='/cat.jpg'>{/*사진 소스 불러오기*/}</img>
-                        <div className='section2_user_information'>
-                            <div className='section2_user_tag'>#고양이</div>
-                            <div className='section2_user_nicknameContainer'>
-                                <div className='section2_user_nickname_sharer'>공유자</div>
-                                <div className='section2_user_nickname'>박준영</div>
-                            </div>
-                        </div>
-                    </div>
-
-                </Section2Container>
+                </GridContainer>
             </Section2>
             
-            <Section3>
+            <Section3 ref={section3Ref}>
                 <Section3Container>
                     <div className='section3_img_container'>
                     </div>
                     <div className='section3_category_container'>
                         <div className='section3_content_title'>인기<span className="tag">#태그</span>모음</div>
                         <div className='section3_content_subtitle'>현재 인기 태그는?</div>
-                        <div className='section3_category_container_line'>
-                            <div className='section3_category'># 축구</div>
-                            <div className='section3_category'># 고양이</div>
-                            <div className='section3_category'># 드라이브</div>
-                            <div className='section3_category'># 골프</div>
-                        </div>
-                        <div className='section3_category_container_line'>
-                            <div className='section3_category'># 맛집탐방</div>
-                            <div className='section3_category'># 테니스</div>
-                            <div className='section3_category'># 전시회</div>
-                            <div className='section3_category'># 카페</div>
-                        </div>
+                        <CategoryRow className="categoryRow">
+                            <Category># 축구</Category>
+                            <Category># 고양이</Category>
+                            <Category># 드라이브</Category>
+                            <Category># 골프</Category>
+                        </CategoryRow>
+                        <CategoryRow className="categoryRow">
+                            <Category># 맛집탐방</Category>
+                            <Category># 테니스</Category>
+                            <Category># 전시회</Category>
+                            <Category># 카페</Category>
+                        </CategoryRow>
                     </div>                
                 </Section3Container>
             </Section3>
 
             <Section4>
                 <Section4Container>
-                    <div className='section4_header'>
-                        <div className='section4_header_title'>플랫폼 사용 방법은? OR 플랫폼 사진 분석 방식 설명</div>
+                    <div className='explainContainer'>
+                        <div className='explainContainer_img1'  data-animate="left-animate" />
+                        <div className='explainContanier_explain' data-animate="right-animate">
+                        <span className='explain_title'><img className='emoji' src='/ai.png' /> 사진 분석 인공지능</span>
+                        당사 플랫폼은 사진 분석 알고리즘을 사용하여 학습 시켜 업로드된 사진을 분석하고 
+                        개인 스타일과 선호도를 반영하는 고유한 취향 태그를 식별합니다. 
+                        이러한 접근 방식은 맞춤형 경험을 보장하여 바슷한 취미의 다른 친구를
+                        연결 시키도록 만들어 줍니다.</div>
+                        </div>
+                    <div className='explainContainer'>
+                        <div className='explainContanier_explain' data-animate="left-animate">
+                        <span className='explain_title'><img className='emoji' src='/network.png'/> 오직 사진으로 친구 찾기!</span>
+                        스마트 매치메이킹
+                        시스템을 통해 같은 취미를 가진 
+                        사람들의 사진을 구경하세요. 취향 태그를 비교함으로써 우리 플랫폼은 잠재적인
+                        연결을 식별하고 비슷한 취향과 취향을 가진 사용자 간의 의미 있는 상호 작용과 
+                        협력을 촉진합니다.</div>
+                        <div className='explainContainer_img2' data-animate="right-animate" />
                     </div>
-                    <div className='section4_content_container'>
-                        <div className='section4_content_icon'>아이콘OR 사진</div>
-                        <hr />
-                        <div className='section4_content_explain'>내용이 들어가 어떠한 분석방법이나 등등</div>
-
+                    <div className='explainContainer'>
+                        <div className='explainContainer_img3' data-animate="left-animate"/>
+                        <div className='explainContanier_explain' data-animate="right-animate">
+                        <span className='explain_title'><img className='emoji' src='/person.png'/> 사진 공유하는 재미</span>
+                        사진을 다른 사람들에게 보여주면서, 자랑할 수 있고 공감할 수 있습니다.
+                        다양한 사진을 구경하고 정보를 나눠서 RelPho에서 새로운 친구를
+                        만들어보세요! 
+                        </div>
                     </div>
-                    <div className='section4_content_container'>
-                        <div className='section4_content_icon'>아이콘OR사진</div>
-                        <hr />
-                        <div className='section4_content_explain'>내용이 들어가 어떠한 분석방법이나 등등</div>
-                    </div>
-                    <div className='section4_content_container'>
-                        <div className='section4_content_icon'>아이콘OR 사진</div>
-                        <hr />
-                        <div className='section4_content_explain'>내용이 들어가 어떠한 분석방법이나 등등</div>
-                    </div>
+                    
                 </Section4Container>
             </Section4>
 
