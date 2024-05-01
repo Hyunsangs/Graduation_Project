@@ -3,12 +3,15 @@ import styled from '@emotion/styled';
 import { IoPersonOutline } from "react-icons/io5";
 import { TbLock } from "react-icons/tb";
 import { Link } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { loginUser } from "../../slice/userSlice";
 
 export const LoginContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #fde6e6;
+    background-color: #becdf5;
     height: 100vh;
     
 `;
@@ -56,6 +59,11 @@ export const SearchPasswordButton = styled.div`
     display: flex;
     justify-content: flex-end;
     cursor: pointer;
+    
+    &:hover {
+        opacity: 1;
+        color: black;
+    }
 `
 export const SignUpButtonContainer = styled.div`
     display: flex;
@@ -105,55 +113,47 @@ export const LoginButton = styled.button`
 `
 
 const Login = () => {
-    
-    const [ userId, setUserId ] = useState("");
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [ username, setUsername ] = useState("");
     const [ password, setPassword] = useState("");
 
     const changeHandler = (e) => {
         const { value, name } = e.target;
-        if (name === "userId") setUserId(value);
+        if (name === "username") setUsername(value);
         else if (name === "password") setPassword(value);
     };
 
-    /* 
+   
     const handleLogin = async (e) => {
         e.preventDefault();
+        dispatch(loginUser({ username, password }))
+            .unwrap()
+            .then(() => {
         
-        try {
-            const response = await axios.post('/api/users/login', { userId, password });
-        
-    
-            // 로그인 성공과 토큰 값 추출
-            if (response.data.loginSuccess) {
-                const { token, userName } = response.data;
-
-                localStorage.setItem("x_auth", token); // localStorage에 토큰 저장
-
-                login({ token, userName }); // 예시: login 함수에 토큰과 사용자 ID 전달
-
-                alert("로그인 성공!");
-
-                navigate('/'); // 홈 페이지로 이동
-            } else {
-                alert("로그인 실패: " + response.data.message);
-            }
-        } catch (error) {
-            console.error("로그인 오류: ", error);
-            alert("로그인 처리 중 오류 발생");
-        }
+                // 로그인 성공 시 홈 페이지로 리다이렉트
+                navigate('/');
+            })
+            .catch(error => {
+                if (error.response && error.response.status === 403) {
+                    alert("접근이 거부되었습니다. 권한을 확인하세요.");
+                } else if (error.response && error.response.status === 404) {
+                    alert("서버를 찾을 수 없습니다. 네트워크 연결을 확인하세요.");
+                } else {
+                    alert("로그인 실패: " + (error.response?.data?.message || "서버 오류가 발생했습니다."));
+                }
+            });
     };
-    */
-
     return (
         <LoginContainer>
-            <LoginForm >
+            <LoginForm onSubmit={handleLogin}>
                 <h1>Login</h1>
                 <LoginInputContainer>
                     <IoPersonOutline style={{fontSize: "25px", marginRight: "5px"}}/>
                     <LoginInput 
-                    name="userId"
+                    name="username"
                     type="text"
-                    value={userId}
+                    value={username}
                     onChange={changeHandler}
                     required
                     placeholder="아이디 입력"

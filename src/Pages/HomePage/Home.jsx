@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 
 const MainHomeContainer = styled.div`
-    
+    width: 100%;
 `
 /* --------------- 메인 section1 css --------------- */
 
@@ -175,7 +175,7 @@ const Section3 = styled.div`
     height: 100vh;
     width: 100%;
     background-color: #aef19d;
-
+    
     
 
 `
@@ -183,23 +183,20 @@ const Section3 = styled.div`
 const Section3Container = styled.div`
     display: flex;
     width: 100%;
-   
-    justify-content: space-between;
     align-items: center;
     padding: 100px 50px;
-
+    justify-content: center;
     .section3_img_container {
         display: flex;
         flex-direction: column;
         height: 100%;
-        width: 40%;
-        justify-content: center;
+        width: 600px;
         background-image: url('/tagbackground.png');
         object-fit: cover;
         background-repeat: no-repeat;
         background-position: center;
         border-radius: 20px;
-
+        margin-right: 150px;
     }
 
     .section3_category_container {
@@ -224,26 +221,6 @@ const Section3Container = styled.div`
             justify-content: flex-start;
             padding: 10px;
         }
-
-
-        .section3_category_container_line {
-            padding: 10px;
-            display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            
-            .section3_category {
-            
-            padding: 10px;
-            font-size: 30px;
-            background-color: white;
-            border: 2px solid #8181f8;
-            border-radius: 10px;
-            color: #8181f8;
-            margin-left: 10px;
-            }
-        }
-        
         
     }
 
@@ -270,6 +247,8 @@ const Category = styled.div`
     border-radius: 10px;
     color: #8181f8;
     margin-left: 10px;
+    min-width: 130px;
+    min-height: 60px;
     
 `;
 
@@ -336,8 +315,8 @@ const Section4Container = styled.div`
 
     .explainContainer {
     
-       display: flex;
-       justify-content: space-around;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
         width: 100%;
         margin-top: 100px;
         
@@ -573,8 +552,9 @@ const Home = () => {
                         당사 플랫폼은 사진 분석 알고리즘을 사용하여 학습 시켜 업로드된 사진을 분석하고 
                         개인 스타일과 선호도를 반영하는 고유한 취향 태그를 식별합니다. 
                         이러한 접근 방식은 맞춤형 경험을 보장하여 바슷한 취미의 다른 친구를
-                        연결 시키도록 만들어 줍니다.</div>
+                        연결 시키도록 만들어 줍니다.
                         </div>
+                    </div>
                     <div className='explainContainer'>
                         <div className='explainContanier_explain' data-animate="left-animate">
                         <span className='explain_title'><img className='emoji' src='/network.png'/> 오직 사진으로 친구 찾기!</span>
